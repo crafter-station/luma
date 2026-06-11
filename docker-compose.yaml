@@ -12,6 +12,19 @@ services:
       - "3000"
     networks:
       - dokploy-network
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=dokploy-network
+      - traefik.http.routers.luma-web.rule=Host(`luma.crafter.run`)
+      - traefik.http.routers.luma-web.entrypoints=websecure
+      - traefik.http.routers.luma-web.tls=true
+      - traefik.http.routers.luma-web.tls.certresolver=letsencrypt
+      - traefik.http.services.luma-web.loadbalancer.server.port=3000
+      - traefik.http.routers.luma-web-http.rule=Host(`luma.crafter.run`)
+      - traefik.http.routers.luma-web-http.entrypoints=web
+      - traefik.http.routers.luma-web-http.middlewares=luma-web-redirect
+      - traefik.http.middlewares.luma-web-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.luma-web-redirect.redirectscheme.permanent=true
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3000/"]
       interval: 30s
