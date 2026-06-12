@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -11,6 +11,15 @@ export const metadata: Metadata = {
   title: "Luma — Online Star Map",
   description:
     "A planetarium in your browser. Real-time sky map of stars, planets, and deep-sky objects, powered by the Stellarium Web Engine.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
+  themeColor: "#05070d",
 };
 
 export default function RootLayout({
