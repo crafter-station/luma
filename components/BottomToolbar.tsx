@@ -48,9 +48,13 @@ interface Props {
 }
 
 export function BottomToolbar({ layers, paused, onToggle, onTogglePause, onFullscreen }: Props) {
+  const btn =
+    "grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full transition shrink-0";
+  const iconSize = 16;
+
   return (
-    <div className="pointer-events-auto absolute inset-x-0 bottom-3 z-10 flex justify-center">
-      <div className="flex items-center gap-1 rounded-full bg-black/40 px-3 py-2 text-white backdrop-blur-sm ring-1 ring-white/10">
+    <div className="pointer-events-auto absolute inset-x-0 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-10 flex justify-center px-2">
+      <div className="flex max-w-full items-center gap-0.5 sm:gap-1 overflow-x-auto rounded-full bg-black/40 px-2 sm:px-3 py-1.5 sm:py-2 text-white backdrop-blur-sm ring-1 ring-white/10 [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {ITEMS.map(({ key, label, icon: Icon }) => {
           const active = layers[key];
           return (
@@ -58,37 +62,34 @@ export function BottomToolbar({ layers, paused, onToggle, onTogglePause, onFulls
               key={key}
               type="button"
               title={label}
+              aria-label={label}
               aria-pressed={active}
               onClick={() => onToggle(key)}
-              className={
-                "grid h-10 w-10 place-items-center rounded-full transition " +
-                (active ? "text-white" : "text-white/40 hover:text-white/70")
-              }
+              className={btn + " " + (active ? "text-white" : "text-white/40 hover:text-white/70")}
             >
-              <Icon size={18} />
+              <Icon size={iconSize} className="sm:[&]:!size-[18px]" />
             </button>
           );
         })}
-        <span className="mx-1 h-6 w-px bg-white/15" />
+        <span className="mx-0.5 sm:mx-1 h-6 w-px shrink-0 bg-white/15" />
         <button
           type="button"
           title={paused ? "Resume real-time motion" : "Pause time"}
+          aria-label={paused ? "Resume" : "Pause"}
           aria-pressed={paused}
           onClick={onTogglePause}
-          className={
-            "grid h-10 w-10 place-items-center rounded-full transition " +
-            (paused ? "text-amber-300" : "text-white/60 hover:text-white")
-          }
+          className={btn + " " + (paused ? "text-amber-300" : "text-white/60 hover:text-white")}
         >
-          {paused ? <Play size={18} /> : <Pause size={18} />}
+          {paused ? <Play size={iconSize} className="sm:[&]:!size-[18px]" /> : <Pause size={iconSize} className="sm:[&]:!size-[18px]" />}
         </button>
         <button
           type="button"
           title="Fullscreen"
+          aria-label="Fullscreen"
           onClick={onFullscreen}
-          className="grid h-10 w-10 place-items-center rounded-full text-white/60 hover:text-white"
+          className={btn + " text-white/60 hover:text-white hidden sm:grid"}
         >
-          <Maximize2 size={18} />
+          <Maximize2 size={iconSize} className="sm:[&]:!size-[18px]" />
         </button>
       </div>
     </div>

@@ -23,14 +23,14 @@ export function LocationTimeHud({ location, date, onEditLocation }: Props) {
       <button
         type="button"
         onClick={onEditLocation}
-        className="pointer-events-auto absolute bottom-3 left-3 z-10 flex items-center gap-1.5 rounded-full bg-black/40 px-3 py-1.5 text-xs text-white/90 ring-1 ring-white/10 backdrop-blur-sm hover:bg-black/55"
+        className="pointer-events-auto absolute bottom-[calc(env(safe-area-inset-bottom)+4rem)] left-2 z-10 flex max-w-[55vw] items-center gap-1.5 truncate rounded-full bg-black/40 px-2.5 py-1 text-[11px] text-white/90 ring-1 ring-white/10 backdrop-blur-sm hover:bg-black/55 sm:bottom-3 sm:left-3 sm:max-w-none sm:px-3 sm:py-1.5 sm:text-xs"
       >
-        <MapPin size={14} className="text-white/60" />
-        <span className="font-light uppercase tracking-wide">{location.name}</span>
+        <MapPin size={12} className="shrink-0 text-white/60 sm:[&]:!size-[14px]" />
+        <span className="truncate font-light uppercase tracking-wide">{location.name}</span>
       </button>
-      <div className="pointer-events-none absolute bottom-3 right-3 z-10 flex flex-col items-end rounded-md bg-black/40 px-3 py-1.5 font-mono text-xs text-white/90 ring-1 ring-white/10 backdrop-blur-sm">
-        <span className="text-base leading-none">{time}</span>
-        <span className="text-[10px] text-white/55">{day}</span>
+      <div className="pointer-events-none absolute bottom-[calc(env(safe-area-inset-bottom)+4rem)] right-2 z-10 flex flex-col items-end rounded-md bg-black/40 px-2.5 py-1 font-mono text-[11px] text-white/90 ring-1 ring-white/10 backdrop-blur-sm sm:bottom-3 sm:right-3 sm:px-3 sm:py-1.5 sm:text-xs">
+        <span className="text-sm leading-none sm:text-base">{time}</span>
+        <span className="text-[9px] text-white/55 sm:text-[10px]">{day}</span>
       </div>
     </>
   );
