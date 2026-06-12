@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { loadStelEngine, dateToMJD } from "@/lib/stelEngine";
-import type { StelEngine, StelObject } from "@/lib/stelEngine";
+import { loadStelEngine, dateToMJD, selectAndPoint } from "@/lib/stelEngine";
+import type { SkySourceSearchResult, StelEngine, StelObject } from "@/lib/stelEngine";
 import { summarizeObject } from "@/lib/formatCoords";
 import type { ObjectSummary } from "@/lib/formatCoords";
 import {
@@ -173,14 +173,10 @@ export default function SkyApp() {
     else document.exitFullscreen?.();
   }, []);
 
-  const handleSearch = useCallback((query: string) => {
-    // Real catalog lookup is out of scope for the MVP; we forward to the noctuasky API
-    // as a side-channel so search at least surfaces something useful.
-    window.open(
-      `https://api.noctuasky.com/api/v1/skysources/?q=${encodeURIComponent(query)}`,
-      "_blank",
-      "noopener",
-    );
+  const handleSelectResult = useCallback((result: SkySourceSearchResult) => {
+    const stel = engineRef.current;
+    if (!stel) return;
+    void selectAndPoint(stel, result);
   }, []);
 
   const handleCloseSelection = useCallback(() => {
@@ -216,7 +212,7 @@ export default function SkyApp() {
           </div>
         </div>
       )}
-      <TopBar fovDegrees={fovDegrees} onSearch={handleSearch} />
+      <TopBar fovDegrees={fovDegrees} onSelectResult={handleSelectResult} />
       <ObjectInfoPanel summary={selection} onClose={handleCloseSelection} />
       <BottomToolbar
         layers={layers}
